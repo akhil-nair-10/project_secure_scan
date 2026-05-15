@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+html,
+body{
+  height: 100%;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mainFrame{
+    background: rgb(0, 0, 76);
+    align-items: center;
+    justify-content: center;
+}
+
+.innerFrame{
+    background-color: rgb(0, 0, 76);
+    box-shadow: 0px 0px 20px white;
+    border-radius: 20px;
+    animation: breathe 3s infinite ease-in-out;
+}
+
+.LHS{
+    border-radius: 20px;
+    justify-content: center;
+    padding: 40px;
+}
+
+.texts{
+    margin-bottom: 10px;
+}
+
+.txt1{
+    font-weight: bold;
+}
+
+.input_field{
+   display: none;
+}
+
+.Input_file_name{
+    border: 2px solid cyan;
+    box-shadow: 0px 0px 5px cyan;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    align-items: center;
+    animation: breathe2 3s infinite ease-in-out;
+}
+.Input_file_name:hover{
+    transition: 0.4s;
+    text-shadow: 0px 0px 20px white;
+}
+
+.RHS{
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon_frame{
+    background-color: cyan;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 0px 15px white;
+    animation: breathe 3s infinite ease-in-out;
+}
+
+.key_hole{
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}
+.key_hole_bottom{
+    margin-top: 15px;
+}
+
+.btn_wrapper{
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 30px;
+}
+.scan_btn{
+    background-color: aqua;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid black;
+    cursor: pointer;
+    font-size: medium;
+}
+.scan_btn:hover{
+    background-color: teal;
+}
+.clear_btn{
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    cursor: pointer;
+    font-size: medium;
+}
+.clear_btn:hover{
+    border: 1px solid grey;
+    color: grey;
+}
+
+
+/*animation keyframe for lock_icon and innerFrame*/
+@keyframes breathe{
+    0%{
+        box-shadow: 0px 0px 10px white;
+    }
+    50%{
+        box-shadow: 
+        0px 0px 35px cyan;
+    }
+    100%{
+        box-shadow: 0px 0px 10px white;
+    }
+}
+/*animation for input text*/
+@keyframes breathe2{
+    0%{
+        box-shadow: 0px 0px 5px white;
+    }
+    50%{
+        box-shadow: 
+        0px 0px 20px cyan;
+    }
+    100%{
+        box-shadow: 0px 0px 5px white;
+    }
+}
