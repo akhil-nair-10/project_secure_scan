@@ -119,7 +119,6 @@ body{
     color: grey;
 }
 
-
 /*animation keyframe for lock_icon and innerFrame*/
 @keyframes breathe{
     0%{
@@ -133,6 +132,7 @@ body{
         box-shadow: 0px 0px 10px white;
     }
 }
+
 /*animation for input text*/
 @keyframes breathe2{
     0%{
@@ -145,4 +145,38 @@ body{
     100%{
         box-shadow: 0px 0px 5px white;
     }
+}
+
+/*------- Above was for mainpage -------*/
+
+/*------- Result page css -------*/
+.result-frame{
+    padding: 15px;
+    animation: breathe 3s infinite ease-in-out;
+}
+
+.back_btn{
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid cyan;
+    margin-bottom: 15px;
+}
+.back_btn:hover{
+    border: 2px solid darkcyan;
+    color: darkcyan;
+}
+
+.ai_summary{
+    border: 4px dashed cyan;
+    padding: 5px;
+}
+.ring_chart{
+    border: 4px double cyan;
+    padding: 20px;
+}
+
+.txt_report_summary{
+    margin-top: 20px;
 }

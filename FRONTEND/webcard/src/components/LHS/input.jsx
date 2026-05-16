@@ -1,12 +1,17 @@
 import React from 'react'
 import { useState } from 'react';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Input = () => {
 
     const inputRef = useRef();
     const [fileName, setFileName] = useState("Upload a File");
     const [file, setFile] = useState(null);
+    const [scanState, setScanState] = useState(false);
+    const [scanTxt, setScanTxt] = useState("SCAN");
+
+    const navigate = useNavigate();
 
     function fileUpload(){
         inputRef.current.click();
@@ -22,6 +27,8 @@ const Input = () => {
         return;
       }
       else{
+        setScanState(true);
+        setScanTxt("SCANNING...");
         console.log("scanning....");
         const safe = Math.random()>0.5;
         setTimeout(() => {
@@ -31,6 +38,9 @@ const Input = () => {
           else{
             console.log("File is Malicious");
           }
+          setScanState(false);
+          setScanTxt("SCAN");
+          navigate('/result');
         }, 2000);
       }
     }
@@ -52,8 +62,8 @@ const Input = () => {
         <input type='file' ref={inputRef} onChange={fileNameUpdate} className='input_field lg:w-2xs w-full'/>{fileName}
       </div>
       <div className='btn_wrapper lg:w-2xs flex'>
-        <button className='scan_btn h-full lg:w-1/3 active:scale-97 select-none' onClick={scanBtnClick} >SCAN</button>
-        <button className='clear_btn h-full lg:w-1/3 active:scale-97 select-none' onClick={clearBtnClick} >CLEAR</button>
+        <button className='scan_btn h-full active:scale-97 select-none' onClick={scanBtnClick} >{scanTxt}</button>
+        <button className='clear_btn h-full lg:w-1/4 active:scale-97 select-none' onClick={clearBtnClick} >CLEAR</button>
       </div>
       </div>
     </div>
