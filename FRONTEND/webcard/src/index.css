@@ -168,11 +168,11 @@ body{
     color: darkcyan;
 }
 
-.ai_summary{
+.ai_summary_area{
     border: 4px dashed cyan;
     padding: 5px;
 }
-.ring_chart{
+.doughnut_chart_area{
     border: 4px double cyan;
     padding: 20px;
 }

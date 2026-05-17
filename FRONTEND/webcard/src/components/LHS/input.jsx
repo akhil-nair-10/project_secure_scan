@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,9 @@ const Input = () => {
     const [scanTxt, setScanTxt] = useState("SCAN");
 
     const navigate = useNavigate();
+    const formData = new FormData();
+
+    formData.append('file', file);
 
     function fileUpload(){
         inputRef.current.click();
@@ -22,17 +25,26 @@ const Input = () => {
         setFile(e.target.files[0])
     }
 
-    function scanBtnClick(){
+    async function scanBtnClick(){
       if(!file){
         alert("Please select a file first");
         return;
       }
       else{
-        setScanState(true);
-        setScanTxt("SCANNING...");
+        try{
+
+          setScanState(true);
+          setScanTxt("SCANNING...");
+
+          const response = await axios.post(
+            'http://localhost:3000/scan',
+            formData
+          );
+          console.log(response.data);
+        
         console.log("scanning....");
         const safe = Math.random()>0.5;
-        setTimeout(() => {
+        
           if(safe){
             console.log("File is Safe");
           }
@@ -42,8 +54,14 @@ const Input = () => {
           setScanState(false);
           setScanTxt("SCAN");
           navigate('/result');
-        }, 2000);
       }
+      catch(err){
+        console.log(err);
+        alert("An error occurred while scanning the file");
+        setScanState(false);
+        setScanTxt("SCAN"); 
+      }
+    }
     }
 
     function clearBtnClick(){
