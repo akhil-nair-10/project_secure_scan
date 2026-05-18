@@ -13,9 +13,7 @@ const Input = () => {
     const [scanTxt, setScanTxt] = useState("SCAN");
 
     const navigate = useNavigate();
-    const formData = new FormData();
-
-    formData.append('file', file);
+   
 
     function fileUpload(){
         inputRef.current.click();
@@ -35,6 +33,8 @@ const Input = () => {
 
           setScanState(true);
           setScanTxt("SCANNING...");
+          const formData = new FormData();
+          formData.append('file', file);
 
           const response = await axios.post(
             'http://localhost:3000/scan',
@@ -42,15 +42,6 @@ const Input = () => {
           );
           console.log(response.data);
         
-        console.log("scanning....");
-        const safe = Math.random()>0.5;
-        
-          if(safe){
-            console.log("File is Safe");
-          }
-          else{
-            console.log("File is Malicious");
-          }
           setScanState(false);
           setScanTxt("SCAN");
           navigate('/result');
