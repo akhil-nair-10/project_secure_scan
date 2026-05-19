@@ -150,6 +150,14 @@ body{
 /*------- Above was for mainpage -------*/
 
 /*------- Result page css -------*/
+
+.waiting_frame{
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    animation: breathe2 3s infinite ease-in-out;
+}
+
 .result-frame{
     padding: 15px;
     animation: breathe 3s infinite ease-in-out;

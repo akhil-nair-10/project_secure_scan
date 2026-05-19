@@ -12,32 +12,38 @@ const Result = () => {
     const [loading, setLoading] = useState(true);
 
 
-    useEffect(() => {
+   useEffect(() => {
 
-        async function fetchReport(){
+    async function fetchReport() {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/result/${analysisId}`
+      );
+      const data = response.data.data.attributes;
+      console.log(data);
+      if (data.status !== "completed") {
+        setTimeout(fetchReport, 3000); // retry after 3 sec
+        return;
+      }
+      setReportData(data.results);
+      setLoading(false);
 
-            try{
-              const response = await axios.get(
-                `http://localhost:3000/result/${analysisId}`
-              );
-              console.log(response.data);
-              setReportData(response.data.data.attributes.results);
-              setLoading(false);
-            } 
-            catch (err) {
-              console.log(err);
-              setLoading(false);
-            }
-          }
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  }
 
-          fetchReport();
+  fetchReport();
 
-        }, []);
+}, []);
 
   if(loading){
     return (
-      <div className='text-white bg-black'>
-        Scanning file... please wait ⏳
+      <div className='bg-blue-950 flex justify-center items-center h-screen w-screen text-2xl font-bold'>
+        <div className='waiting_frame flex bg-blue-950 h-fit w-80 justify-center items-center rounded-lg border-2 border-gray-600'>
+        Scanning file... <br></br>please wait ⏳<br></br> Over 60+ antivirus engines are analyzing your file for threats.
+        </div>
       </div>
       );
   }  
@@ -57,7 +63,7 @@ const Result = () => {
             <br/>
             
             {/* TABLE START */}
-            <div className='mt-4 overflow-x-auto'>
+            <div className='mt-4 overflow-x-auto border-3 border-gray-600 p-4 rounded-lg'>
 
                
                       {vendors.length === 0 && (
@@ -88,7 +94,7 @@ const Result = () => {
                                 {result.category === "malicious" && "❌ Malicious" }
                                 {result.category === "suspicious" && "⚠️ Suspicious" }
                                 {result.category === "undetected" && "✅ Safe" }
-                                {!result.category && "❓ Unknown" }
+                                {!result?.category && "❓ Unknown" }
                               </td>
 
                             </tr>
