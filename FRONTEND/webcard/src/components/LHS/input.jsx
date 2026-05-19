@@ -40,11 +40,18 @@ const Input = () => {
             'http://localhost:3000/scan',
             formData
           );
+
           console.log(response.data);
+
+          const analysisId = response.data.data.id;
         
           setScanState(false);
           setScanTxt("SCAN");
-          navigate('/result');
+          navigate('/result', {
+            state: {
+              analysisId: analysisId
+            }
+          });
       }
       catch(err){
         console.log(err);

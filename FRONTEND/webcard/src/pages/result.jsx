@@ -1,7 +1,49 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import axios from 'axios'
 
 const Result = () => {
+
+    const location = useLocation();
+    const analysisId = location.state?.analysisId;
+    const [reportData, setReportData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+
+        async function fetchReport(){
+
+            try{
+              const response = await axios.get(
+                `http://localhost:3000/result/${analysisId}`
+              );
+              console.log(response.data);
+              setReportData(response.data.data.attributes.results);
+              setLoading(false);
+            } 
+            catch (err) {
+              console.log(err);
+              setLoading(false);
+            }
+          }
+
+          fetchReport();
+
+        }, []);
+
+  if(loading){
+    return (
+      <div className='text-white bg-black'>
+        Scanning file... please wait ⏳
+      </div>
+      );
+  }  
+
+  const vendors = reportData ? Object.entries(reportData) : [];
+
   return (
     <div className='lg:h-screen h-full w-screen flex justify-center select-none bg-blue-950'>
       <div className='result-frame w-4/5 flex flex-col bg-blue-950 h-full'>
@@ -14,6 +56,48 @@ const Result = () => {
             <p className='txt_report_summary text-white font-bold text-2xl'>Report Summary:</p>
             <br/>
             
+            {/* TABLE START */}
+            <div className='mt-4 overflow-x-auto'>
+
+               
+                      {vendors.length === 0 && (
+                          <p className='text-white'>
+                             Analysis still processing...
+                           </p>
+                        )}
+
+                <table className='w-full text-white border-gray-600'>
+                    
+                    <thead>
+                        <tr>
+                          <th className='p-2'>Vendors</th>
+                          <th className='p-2'>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                     
+                        {vendors.map(([vendor, result], index) => (
+                            <tr key={index} className='border-b border-gray-700'>
+
+                              <td className='p-2'>
+                                {vendor}
+                              </td>
+
+                              <td className='p-2'>
+                                {result.category === "malicious" && "❌ Malicious" }
+                                {result.category === "suspicious" && "⚠️ Suspicious" }
+                                {result.category === "undetected" && "✅ Safe" }
+                                {!result.category && "❓ Unknown" }
+                              </td>
+
+                            </tr>
+                        ))}
+                    </tbody>
+
+                </table>
+
+            </div> {/* TABLE END */}
       </div>
     </div>
   )

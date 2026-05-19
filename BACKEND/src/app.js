@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.send('Backend is running');
 });
 
-//testing api 
+//testing api.... This returns details of the current user thats it
 app.get('/vt-test', async (req, res) => {
   try{
     const response = await axios.get(
