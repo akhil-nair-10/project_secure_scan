@@ -151,14 +151,24 @@ body{
 
 /*------- Result page css -------*/
 
+.waiting_bg{
+    background: rgb(0, 0, 76);
+}
+
 .waiting_frame{
+    background: rgb(0, 0, 76);
     padding: 10px;
     color: white;
     border-radius: 10px;
     animation: breathe2 3s infinite ease-in-out;
 }
 
+.result_bg{
+    background: rgb(0, 0, 76);
+}
+
 .result-frame{
+    background: rgb(0, 0, 76);
     padding: 15px;
     animation: breathe 3s infinite ease-in-out;
 }
@@ -177,11 +187,10 @@ body{
 }
 
 .ai_summary_area{
-    border: 4px dashed cyan;
+    border: 3px dashed cyan;
     padding: 5px;
 }
 .doughnut_chart_area{
-    border: 4px double cyan;
     padding: 20px;
 }
 

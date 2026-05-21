@@ -3,6 +3,15 @@ const cors = require('cors');
 const multer = require('multer');
 const axios = require('axios');
 const FormData = require('form-data');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+const genAI = new GoogleGenerativeAI(
+  process.env.GEMINI_API_KEY
+);
+
+const model = genAI.getGenerativeModel({
+  model: 'gemini-2.5-flash-lite',
+})
 
 const app = express();
 
@@ -74,6 +83,53 @@ app.get('/result/:id', async (req, res) => {
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Failed to fetch analysis results');
+  }
+});
+
+app.post('/ai-summary', async (req, res) => {
+  try {
+
+    console.log("AI ROUTE HIT");
+    console.log(req.body);
+
+    const { reportData } = req.body;
+
+    const prompt = `
+You are a cybersecurity assistant.
+
+Analyze this VirusTotal scan result:
+
+Malicious: ${reportData.malicious}
+Suspicious: ${reportData.suspicious}
+Undetected: ${reportData.undetected}
+And make sure to not use text in bold or itaclic. Just plain text.
+Give:
+1. Simple safety verdict (Safe / Suspicious / Dangerous)
+2. Short explanation (120 words max)
+3. Advice to user
+`;
+
+const result = await model.generateContent({ contents: [
+  { 
+    role: "user", 
+    parts: [{ text: prompt }] 
+  }
+] 
+});
+
+const response = await result.response;
+const text = response.text();
+
+console.log("AI RESPONSE:", text);
+
+res.json({ summary: text }); //sends summary to frontend
+
+  } catch (err) {
+    console.log("FULL AI ERROR");
+    console.log(err);
+    res.status(500).json({
+    error: err.message
+  });
   }
 });
 
