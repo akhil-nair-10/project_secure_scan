@@ -15,36 +15,37 @@ const model = genAI.getGenerativeModel({
 
 const app = express();
 
-app.use(cors());
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too many requests, please try again later.'
+});
+
+app.use(globalLimiter);
+app.use(cors({
+  origin: 'https://your-frontend-url.vercel.app' // ICOMPLETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+}));
 app.use(express.json());
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({ storage: multer.memoryStorage(),
+   storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 32 * 1024 * 1024 // 32MB
+  }
+ });
 
 //simply backend testing
 app.get('/', (req, res) => {
   res.send('Backend is running');
 });
 
-//testing api.... This returns details of the current user thats it
-app.get('/vt-test', async (req, res) => {
-  try{
-    const response = await axios.get(
-      'https://www.virustotal.com/api/v3/users/current', 
-      {
-        headers: {
-          'x-apikey': process.env.VT_API_KEY
-        }
-      }
-    );
-    res.json(response.data);
-
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send('VirusTotal API request failed');
-  }
-}); 
+const scanLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: 'Too many scan requests.'
+});
 
 //for sending file to virus total and getting the response.data ONLY
-app.post('/scan', upload.single('file'), async (req, res) => {
+app.post('/scan',scanLimiter, upload.single('file'), async (req, res) => {
     try{
       const formData = new FormData();
 
@@ -106,7 +107,9 @@ And make sure to not use text in bold or itaclic. Just plain text.
 Give:
 1. Simple safety verdict (Safe / Suspicious / Dangerous)
 2. Short explanation (120 words max)
-3. Advice to user
+3. Advice to user 
+
+and make sure to leave a line after each point.
 `;
 
 const result = await model.generateContent({ contents: [
@@ -119,8 +122,6 @@ const result = await model.generateContent({ contents: [
 
 const response = await result.response;
 const text = response.text();
-
-console.log("AI RESPONSE:", text);
 
 res.json({ summary: text }); //sends summary to frontend
 
