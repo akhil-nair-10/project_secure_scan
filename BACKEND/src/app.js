@@ -4,6 +4,7 @@ const multer = require('multer');
 const axios = require('axios');
 const FormData = require('form-data');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const rateLimit = require('express-rate-limit');
 
 const genAI = new GoogleGenerativeAI(
   process.env.GEMINI_API_KEY
@@ -27,7 +28,6 @@ app.use(cors({
 }));
 app.use(express.json());
 const upload = multer({ storage: multer.memoryStorage(),
-   storage: multer.memoryStorage(),
   limits: {
     fileSize: 32 * 1024 * 1024 // 32MB
   }
