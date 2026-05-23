@@ -37,7 +37,7 @@ const Input = () => {
           formData.append('file', file);
 
           const response = await axios.post(
-            'http://localhost:3000/scan',
+            'https://secure-scan-backend-86a4.onrender.com/scan',
             formData
           );
 

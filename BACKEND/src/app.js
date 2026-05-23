@@ -24,7 +24,7 @@ const globalLimiter = rateLimit({
 
 app.use(globalLimiter);
 app.use(cors({
-  origin: 'https://your-frontend-url.vercel.app' // ICOMPLETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  origin: 'https://secure-scan-frontend.onrender.com'
 }));
 app.use(express.json());
 const upload = multer({ storage: multer.memoryStorage(),
