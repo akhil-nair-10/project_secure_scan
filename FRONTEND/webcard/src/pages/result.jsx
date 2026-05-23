@@ -32,7 +32,7 @@ const Result = () => {
     async function fetchReport() {
     try {
       const response = await axios.get(
-        `https://secure-scan-backend-86a4.onrender.com/result/${analysisId}`
+        `${import.meta.env.VITE_API_URL}/result/${analysisId}`
       );
       const data = response.data.data.attributes;
       console.log(data);
@@ -48,7 +48,7 @@ const Result = () => {
       console.log("SENDING TO AI:", data.stats);
 
       const aiResponse = await axios.post(
-        'https://secure-scan-backend-86a4.onrender.com/ai-summary',
+        `${import.meta.env.VITE_API_URL}/ai-summary`,
         {
           reportData:{
             malicious: data.stats.malicious,

@@ -37,7 +37,7 @@ const Input = () => {
           formData.append('file', file);
 
           const response = await axios.post(
-            'https://secure-scan-backend-86a4.onrender.com/scan',
+            `${import.meta.env.VITE_API_URL}/scan`,
             formData
           );
 
