@@ -1,6 +1,6 @@
 # SecureScan 🔐🧠
 
-## LIVE DEMO LINK : https://secure-scan-frontend.onrender.com
+**LIVE DEMO LINK : https://secure-scan-frontend.onrender.com**
 
 SecureScan is a full-stack file security analysis tool that scans uploaded files using VirusTotal API and generates an AI-powered security summary using Google Gemini.
 
